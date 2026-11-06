@@ -1,0 +1,34 @@
+[
+  {
+    "org": "sensenova",
+    "repo": "sensenova/SenseNova-Loop-9B-Preview",
+    "license": "apache-2.0",
+    "tier": "STD",
+    "created": "2026-10-28",
+    "likes": 251
+  },
+  {
+    "org": "baidu",
+    "repo": "baidu/Unlimited-OCR-2",
+    "license": "mit",
+    "tier": "STD",
+    "created": "2026-10-26",
+    "likes": 622
+  },
+  {
+    "org": "sensenova",
+    "repo": "sensenova/SenseNova-6.8-Code2Video",
+    "license": "apache-2.0",
+    "tier": "STD",
+    "created": "2026-10-24",
+    "likes": 100
+  },
+  {
+    "org": "tencent",
+    "repo": "tencent/Hy-Nomas-Diffusers",
+    "license": "apache-2.0",
+    "tier": "STD",
+    "created": "2026-10-24",
+    "likes": 14
+  }
+]
