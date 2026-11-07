@@ -1,6 +1,6 @@
-# Open Weights License Tracker
+# Chinese LLM License Tracker
 
-**Which Chinese AI models can you actually deploy?** This repo answers that with data, not press releases.
+**Which Chinese LLM can you actually deploy?** A license audit of 23 flagship models — DeepSeek, Qwen, Kimi, GLM, MiniMax, ERNIE, LongCat, StepFun, Tencent. For each one it answers three questions: does it ship downloadable open weights, is it a base checkpoint or a trained model, and does the license permit commercial use. Refreshed weekly from the Hugging Face API.
 
 Most "open source model" announcements are ambiguous. Some release full weights. Some release a pre-training checkpoint that can't be used without further training. Some release nothing and only sell API access. This repo tracks the difference, weekly, from the source: the Hugging Face API.
 
