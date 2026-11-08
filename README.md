@@ -18,15 +18,16 @@ If you're evaluating a model for commercial use, three questions matter more tha
 
 Vendor marketing doesn't answer these. Model cards often bury them. This repo puts them in one table, refreshed weekly.
 
-## Current snapshot — 2026-11-06
+## Current snapshot — 2026-11-08
 
-23 flagship models tracked across 12 vendors.
+23 flagship models tracked across 12 vendors. Every `CUSTOM` entry has been checked against its actual LICENSE file, not just the Hugging Face tag.
 
-| License tier | Count | Meaning |
+| License base | Count | Meaning |
 |---|---:|---|
-| `STD` — MIT / Apache-2.0 | **11** | Standard OSI licenses. Commercially safe, modification and redistribution allowed. |
-| `CUSTOM` — `other` | **10** | Weights are downloadable, but the license is vendor-specific. **Read before commercial use.** |
-| `NO_WEIGHTS` | **2** | No public weights at all. API access only. |
+| `std` — MIT / Apache-2.0 | **11** | Stock OSI license, no additions |
+| `mit-based` — MIT text + vendor clauses | **6** | LICENSE opens with the standard MIT grant, then appends clauses (revenue thresholds, attribution). **Considerably more permissive than the `other` tag implies** |
+| `custom` — fully bespoke agreement | **4** | ERNIE 5.5, Llama 3.3, MiniMax M2.5. Must be read line by line |
+| `NO_WEIGHTS` | **2** | No public weights. API access only |
 
 ### The table
 
@@ -64,6 +65,8 @@ These were verified against the HF API, not taken from announcements:
 2. **"Open source" sometimes means a base checkpoint.** Baidu's `ERNIE-5.5-Flash-Base` is a pre-training endpoint — 280B total / 14B active, 304 GB across 139 files. It ships without mid- or post-training. You cannot chat with it out of the box.
 3. **Some headline models have no weights at all.** `Qwen3.8-Max` and `LongCat-2.5` are widely discussed as "open source flagships" in the press. Neither has a Hugging Face repo. Qwen's newest public weights are `Qwen3.8-27B` and `Qwen3.8-Flash-Next`; Meituan's are still `LongCat-2.0`.
 4. **Mistral's flagship is not Apache.** `Mistral-Large-4-1T-A52B` is `other`, despite the common assumption that Mistral ships permissively.
+5. **The `other` tag hides a large difference.** 6 of the 10 models tagged `other` on Hugging Face ship a LICENSE file that opens with the standard MIT grant ("Permission is hereby granted, free of charge…") and only then appends vendor clauses. Only **4** are fully bespoke agreements. Grouping all ten as "custom" understates how usable the MIT-based ones are — and overstates the risk.
+6. **File naming breaks most scanners.** MiniMax-M2.5 ships its license as `LICENSE-MODEL`, not `LICENSE`. Any tool that only probes for `LICENSE` reports `unknown`. This is a likely reason several public indexes show a large share of `unknown` licenses: the license exists, the filename just does not match the convention.
 
 ## How it works
 
@@ -116,20 +119,25 @@ Data: CC0. Scripts: MIT.
 
 市面上的"开源"公告口径混乱：有的放了完整权重，有的放的是个没做完后训练的 Base checkpoint，有的压根没放权重、只卖 API。这个仓库每周从 Hugging Face API 直接抓，把差别摊开。
 
-### 三档分类
+### 四档分类
 
-| 档位 | 含义 |
-|---|---|
-| `STD` | MIT / Apache-2.0 等标准开源协议，商用安全，可改可再分发 |
-| `CUSTOM` | 权重能下，但许可是厂商自定义协议，**商用前必须逐条读** |
-| `NO_WEIGHTS` | 没有任何公开权重，只有 API |
+| 档位 | 含义 | 数量 |
+|---|---|---|
+| `std` | MIT / Apache-2.0 原样协议，无附加条款 | 11 |
+| `mit-based` | **MIT 正文 + 厂商附加条款**（营收门槛、署名义务等） | 6 |
+| `custom` | 完全自定义协议（ERNIE 5.5 / Llama 3.3 / MiniMax M2.5） | 4 |
+| `NO_WEIGHTS` | 没有任何公开权重，只有 API | 2 |
 
-### 四条核实出来的结论
+**关键：这四档是逐个读 LICENSE 正文判的，不是看 HF 上的 `license:` 标签。** HF 把所有非标准协议一律标成 `other`，但那 10 个 `other` 里有 6 个的正文开头就是 MIT 授权语。
+
+### 六条核实出来的结论
 
 1. **同一家厂的许可证会收紧**：智谱 `GLM-5.2` 是 MIT，更新的旗舰 `GLM-5.3` 变成 `other`。换代可能是法律风险的降级。
 2. **"开源"有时只是 Base**：百度 `ERNIE-5.5-Flash-Base` 是预训练终点，280B 总参 / 14B 激活 / 304 GB / 139 个文件，没做中训练和后训练，下载下来不能直接对话。
 3. **有些头条模型根本没有权重**：`Qwen3.8-Max`、`LongCat-2.5` 被广泛当作"开源旗舰"讨论，但 HF 上没有仓库。
 4. **Mistral 的旗舰不是 Apache**：`Mistral-Large-4-1T-A52B` 是 `other`，不是普遍以为的宽松协议。
+5. **`other` 这个标签掩盖了巨大差别**：10 个被标 `other` 的模型里，**6 个的 LICENSE 正文开头就是标准 MIT 授权语**（"Permission is hereby granted, free of charge…"），后面才附上厂商条款。真正完全自定义的只有 **4 个**。把它们一律叫「自定义协议」，既低估了前 6 个的可用性，也高估了风险。
+6. **文件名不规范会让工具误判**：MiniMax-M2.5 的许可证文件叫 **`LICENSE-MODEL`**，不叫 `LICENSE`。只探测 `LICENSE` 的脚本会直接标 `unknown`——公开索引里大量 `unknown` 很可能就是这么来的：许可证是有的，只是文件名不合惯例。
 
 ### 用法
 
