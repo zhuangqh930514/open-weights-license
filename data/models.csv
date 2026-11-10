@@ -10,7 +10,7 @@ Moonshot,Kimi-K3,moonshotai/Kimi-K3,other,CUSTOM,mit-based,777904,11939,2026-06-
 Moonshot,Kimi-K3.1-Pro,moonshotai/Kimi-K3.1-Pro,other,CUSTOM,mit-based,11658,944,2026-11-02,2026-11-05,2026-11-06T04:02:05Z
 Zhipu,GLM-5.3,zai-org/GLM-5.3,other,CUSTOM,mit-based,2255382,2382,2026-08-25,2026-10-14,2026-11-06T04:02:05Z
 Alibaba,Qwen3.8-Max,(none),-,NO_WEIGHTS,-,0,0,,,2026-11-06T04:02:05Z
-Meituan,LongCat-2.5,(none),-,NO_WEIGHTS,-,0,0,,,2026-11-06T04:02:05Z
+Meituan,LongCat-2.5,meituan-longcat/LongCat-2.5,mit,STD,std,0,64,2026-11-04,2026-11-09,2026-11-10T04:20:00Z
 Alibaba,Qwen3.8-27B,Qwen/Qwen3.8-27B,apache-2.0,STD,std,8037597,19218,2026-08-05,2026-11-05,2026-11-06T04:02:05Z
 DeepSeek,V4-Pro,deepseek-ai/DeepSeek-V4-Pro,mit,STD,std,333891,5699,2026-04-22,2026-06-22,2026-11-06T04:02:05Z
 DeepSeek,V4.1-Flash,deepseek-ai/DeepSeek-V4.1-Flash,mit,STD,std,1826303,4874,2026-09-10,2026-10-16,2026-11-06T04:02:05Z
