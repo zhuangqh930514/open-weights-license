@@ -24,10 +24,12 @@ Vendor marketing doesn't answer these. Model cards often bury them. This repo pu
 
 | License base | Count | Meaning |
 |---|---:|---|
-| `std` — MIT / Apache-2.0 | **11** | Stock OSI license, no additions |
+| `std` — MIT / Apache-2.0 | **12** | Stock OSI license, no additions |
 | `mit-based` — MIT text + vendor clauses | **6** | LICENSE opens with the standard MIT grant, then appends clauses (revenue thresholds, attribution). **Considerably more permissive than the `other` tag implies** |
 | `custom` — fully bespoke agreement | **4** | ERNIE 5.5, Llama 3.3, MiniMax M2.5. Must be read line by line |
-| `NO_WEIGHTS` | **2** | No public weights. API access only |
+| `NO_WEIGHTS` | **1** | Qwen3.8-Max — API access only |
+
+> **Updated 2026-11-10:** `LongCat-2.5` moved from `NO_WEIGHTS` to `std`. Weights landed 2026-11-09 (3.56 TB across 210 shards, plain MIT, 1.6T total / ~48B active, native multimodal). It is now the largest Chinese open-weight release tracked here — and carries the cleanest license. The earlier "no public weights" note was correct when written on 2026-11-05 and stopped being correct four days later.
 
 ### The table
 
@@ -123,10 +125,10 @@ Data: CC0. Scripts: MIT.
 
 | 档位 | 含义 | 数量 |
 |---|---|---|
-| `std` | MIT / Apache-2.0 原样协议，无附加条款 | 11 |
+| `std` | MIT / Apache-2.0 原样协议，无附加条款 | 12 |
 | `mit-based` | **MIT 正文 + 厂商附加条款**（营收门槛、署名义务等） | 6 |
 | `custom` | 完全自定义协议（ERNIE 5.5 / Llama 3.3 / MiniMax M2.5） | 4 |
-| `NO_WEIGHTS` | 没有任何公开权重，只有 API | 2 |
+| `NO_WEIGHTS` | 没有任何公开权重，只有 API | 1（Qwen3.8-Max） |
 
 **关键：这四档是逐个读 LICENSE 正文判的，不是看 HF 上的 `license:` 标签。** HF 把所有非标准协议一律标成 `other`，但那 10 个 `other` 里有 6 个的正文开头就是 MIT 授权语。
 
