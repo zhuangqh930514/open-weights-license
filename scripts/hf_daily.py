@@ -174,7 +174,7 @@ def angle_for(r):
     """给每条一个可写的判断角度（不是描述，是观点）。"""
     base, lic = r["license_base"], r["license"]
     if base == "std":
-        return f"标准开源（{lic}），商用无附加条款——可以直接进生产"
+        return f"许可证标签为 {lic}；核对 LICENSE、依赖许可与部署要求后再判断用途"
     if base == "custom":
         return f"标 other，需逐条读协议才能定商用"
     return "许可证未标，商用前必须自己查"

@@ -1,34 +1,42 @@
 [
   {
-    "org": "sensenova",
-    "repo": "sensenova/SenseNova-Loop-9B-Preview",
-    "license": "apache-2.0",
-    "tier": "STD",
-    "created": "2026-10-28",
-    "likes": 251
-  },
-  {
-    "org": "baidu",
-    "repo": "baidu/Unlimited-OCR-2",
-    "license": "mit",
-    "tier": "STD",
-    "created": "2026-10-26",
-    "likes": 622
-  },
-  {
-    "org": "sensenova",
-    "repo": "sensenova/SenseNova-6.8-Code2Video",
-    "license": "apache-2.0",
-    "tier": "STD",
-    "created": "2026-10-24",
-    "likes": 100
+    "org": "MiniMaxAI",
+    "repo": "MiniMaxAI/MiniMax-H3-Image-PE",
+    "license": "other",
+    "tier": "CUSTOM",
+    "created": "2026-11-08",
+    "likes": 63
   },
   {
     "org": "tencent",
-    "repo": "tencent/Hy-Nomas-Diffusers",
+    "repo": "tencent/Qwen3.8-27B-DSpine-b16",
     "license": "apache-2.0",
     "tier": "STD",
-    "created": "2026-10-24",
-    "likes": 14
+    "created": "2026-11-07",
+    "likes": 250
+  },
+  {
+    "org": "sensenova",
+    "repo": "sensenova/SenseNova-U1.5-8B-MoT-TailSteer",
+    "license": "apache-2.0",
+    "tier": "STD",
+    "created": "2026-11-04",
+    "likes": 5
+  },
+  {
+    "org": "meituan-longcat",
+    "repo": "meituan-longcat/LongCat-2.5-W4A4",
+    "license": "mit",
+    "tier": "STD",
+    "created": "2026-11-04",
+    "likes": 3
+  },
+  {
+    "org": "MiniMaxAI",
+    "repo": "MiniMaxAI/MiniMax-H3-Image",
+    "license": "other",
+    "tier": "CUSTOM",
+    "created": "2026-11-03",
+    "likes": 1035
   }
 ]

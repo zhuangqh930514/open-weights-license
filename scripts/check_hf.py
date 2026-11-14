@@ -50,6 +50,7 @@ FLAGSHIPS = [
     ("MiniMax",  "M3",   "MiniMaxAI/MiniMax-M3"),
     ("MiniMax",  "M2.5", "MiniMaxAI/MiniMax-M2.5"),
     # Meituan
+    ("Meituan",  "LongCat-2.5",       "meituan-longcat/LongCat-2.5"),
     ("Meituan",  "LongCat-2.0",       "meituan-longcat/LongCat-2.0"),
     ("Meituan",  "LongCat-Flash-Chat", "meituan-longcat/LongCat-Flash-Chat"),
     # StepFun
@@ -65,10 +66,10 @@ FLAGSHIPS = [
     ("Meta",     "Llama-3.3-70B",   "meta-llama/Llama-3.3-70B-Instruct"),
 ]
 
-# Known to have no public weights at all.
+# Manually curated entries without a mapped public weights repository.
+# Absence from this list of mapped repos is not proof that no weights exist elsewhere.
 API_ONLY = [
     ("Alibaba", "Qwen3.8-Max", "no HF repo; API only"),
-    ("Meituan", "LongCat-2.5", "no HF repo; latest public is LongCat-2.0 (2026-07)"),
 ]
 
 # Orgs to scan for new uploads.
@@ -81,7 +82,7 @@ WATCH_ORGS = [
 STD_LICENSES = {"mit", "apache-2.0", "bsd-3-clause"}
 DISCOVER_DAYS = 14
 
-HEADER = ("vendor,model,hf_repo,license,license_tier,downloads,likes,"
+HEADER = ("vendor,model,hf_repo,license,license_tier,license_base,downloads,likes,"
           "created,last_modified,checked_at\n")
 
 
@@ -122,6 +123,7 @@ def main():
             print(f"  [warn] {repo}: fetch failed", file=sys.stderr)
             rows.append(dict(vendor=vendor, model=name, hf_repo=repo,
                              license="FETCH_FAILED", license_tier="UNKNOWN",
+                             license_base="unreviewed",
                              downloads=0, likes=0, created="", last_modified="",
                              checked_at=checked))
             continue
@@ -130,6 +132,11 @@ def main():
         rows.append(dict(
             vendor=vendor, model=name, hf_repo=repo,
             license=lic, license_tier=tier(lic),
+            # Preserve the earlier manual assessment only while the HF tag is unchanged.
+            # A preserved label is not a fresh review of the LICENSE text.
+            license_base=(prev.get(repo, {}).get("license_base", "unreviewed")
+                          if prev.get(repo, {}).get("license") == lic
+                          else "std" if tier(lic) == "STD" else "unreviewed"),
             downloads=d.get("downloads", 0), likes=d.get("likes", 0),
             created=(d.get("createdAt") or "")[:10],
             last_modified=(d.get("lastModified") or "")[:10],
@@ -139,7 +146,7 @@ def main():
 
     for vendor, model, note in API_ONLY:
         rows.append(dict(vendor=vendor, model=model, hf_repo="(none)",
-                         license="-", license_tier="NO_WEIGHTS",
+                         license="-", license_tier="NO_WEIGHTS", license_base="-",
                          downloads=0, likes=0, created="", last_modified="",
                          checked_at=checked))
 
@@ -148,7 +155,7 @@ def main():
         f.write(HEADER)
         for r in sorted(rows, key=lambda x: (x["license_tier"], x["vendor"], x["model"])):
             f.write(f'{r["vendor"]},{r["model"]},{r["hf_repo"]},{r["license"]},'
-                    f'{r["license_tier"]},{r["downloads"]},{r["likes"]},'
+                    f'{r["license_tier"]},{r["license_base"]},{r["downloads"]},{r["likes"]},'
                     f'{r["created"]},{r["last_modified"]},{r["checked_at"]}\n')
 
     std = sum(1 for r in rows if r["license_tier"] == "STD")

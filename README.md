@@ -1,159 +1,106 @@
-# Chinese LLM License Tracker
+# Chinese LLM License Tracker / 大模型选型核查表
 
-**Which Chinese LLM can you actually deploy?** A license audit of 23 flagship models — DeepSeek, Qwen, Kimi, GLM, MiniMax, ERNIE, LongCat, StepFun, Tencent. For each one it answers three questions: does it ship downloadable open weights, is it a base checkpoint or a trained model, and does the license permit commercial use. Refreshed weekly from the Hugging Face API.
+A maintained list of 23 model entries across 12 vendors: public weights, license tags, and evidence for model selection. It is a curated list, not an exhaustive catalog or a guarantee of production readiness.
 
-Most "open source model" announcements are ambiguous. Some release full weights. Some release a pre-training checkpoint that can't be used without further training. Some release nothing and only sell API access. This repo tracks the difference, weekly, from the source: the Hugging Face API.
+**从这里开始：[大模型选型核查清单](docs/model-selection-checklist.md)** · [完整 CSV](data/models.csv) · [X 核查记录](https://x.com/zqh930514)
 
-> **English** below · [中文说明见文末](#中文说明)
+## 本次更新 / Current status — 2026-11-14
 
----
+- Refreshed the HF metadata for all mapped repositories. Exact fetch times are in `checked_at`.
+- Fixed the scanner and selected table: **LongCat-2.5 has public weights and a MIT license**. It is no longer classified as `NO_WEIGHTS` on the next refresh.
+- Preserved the earlier manually maintained `license_base` field while the HF license tag is unchanged. **Preservation does not mean the LICENSE text was reviewed again today.** A license text may change without its tag changing.
+- Read the fixed-version official LICENSE for Kimi K3.1-Pro and LongCat-2.5; evidence and conditions are in the [checklist](docs/model-selection-checklist.md).
 
-## Why this exists
+### Classification / 分类口径
 
-If you're evaluating a model for commercial use, three questions matter more than benchmark scores:
+| Field | Meaning |
+|---|---|
+| `license` | The tag returned by Hugging Face; a discovery hint, not the complete agreement |
+| `license_tier=STD` | Tag is MIT / Apache-2.0 / BSD-3-Clause; verify the actual text and other obligations |
+| `license_tier=CUSTOM` | Nonstandard tag; **does not mean non-commercial** |
+| `license_base` | Prior manual assessment: `std`, `mit-based`, `custom`; `unreviewed` if not established |
+| `NO_WEIGHTS` | Curated entry without a mapped public weight repository; this is not an exhaustive search result |
 
-1. **Are the weights actually downloadable?** Many flagship models exist only behind an API.
-2. **Is it a base checkpoint or a trained model?** A base checkpoint needs your own post-training before it can be used. That is a very different commitment from downloading an instruct model.
-3. **What does the license permit?** `MIT` / `Apache-2.0` are standard and commercially safe. `other` means a custom agreement you must read line by line.
+Current tag counts: **12 STD, 10 CUSTOM, 1 NO_WEIGHTS**. Carried-forward `license_base` labels: 12 `std`, 6 `mit-based`, 4 `custom`, 1 unmapped. These are separate classification fields, not two conflicting counts.
 
-Vendor marketing doesn't answer these. Model cards often bury them. This repo puts them in one table, refreshed weekly.
+### Model table
 
-## Current snapshot — 2026-11-08
+| Vendor | Model | Official repository | HF tag | Tag tier | License base |
+|---|---|---|---|---|---|
+| Alibaba | Qwen3.8-Flash-Next | [Qwen/Qwen3.8-Flash-Next](https://huggingface.co/Qwen/Qwen3.8-Flash-Next) | `other` | `CUSTOM` | `mit-based` |
+| Baidu | ERNIE-5.5-Flash-Base | [baidu/ERNIE-5.5-Flash-Base](https://huggingface.co/baidu/ERNIE-5.5-Flash-Base) | `other` | `CUSTOM` | `custom` |
+| Baidu | ERNIE-5.5-Flash-Base-BF16 | [baidu/ERNIE-5.5-Flash-Base-BF16](https://huggingface.co/baidu/ERNIE-5.5-Flash-Base-BF16) | `other` | `CUSTOM` | `custom` |
+| Meta | Llama-3.3-70B | [meta-llama/Llama-3.3-70B-Instruct](https://huggingface.co/meta-llama/Llama-3.3-70B-Instruct) | `llama3.3` | `CUSTOM` | `custom` |
+| MiniMax | M2.5 | [MiniMaxAI/MiniMax-M2.5](https://huggingface.co/MiniMaxAI/MiniMax-M2.5) | `other` | `CUSTOM` | `custom` |
+| MiniMax | M3 | [MiniMaxAI/MiniMax-M3](https://huggingface.co/MiniMaxAI/MiniMax-M3) | `other` | `CUSTOM` | `mit-based` |
+| Mistral | Large-4-1T-A52B | [mistralai/Mistral-Large-4-1T-A52B](https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B) | `other` | `CUSTOM` | `mit-based` |
+| Moonshot | Kimi-K3 | [moonshotai/Kimi-K3](https://huggingface.co/moonshotai/Kimi-K3) | `other` | `CUSTOM` | `mit-based` |
+| Moonshot | Kimi-K3.1-Pro | [moonshotai/Kimi-K3.1-Pro](https://huggingface.co/moonshotai/Kimi-K3.1-Pro) | `other` | `CUSTOM` | `mit-based` |
+| Zhipu | GLM-5.3 | [zai-org/GLM-5.3](https://huggingface.co/zai-org/GLM-5.3) | `other` | `CUSTOM` | `mit-based` |
+| Alibaba | Qwen3.8-Max | Not mapped | `-` | `NO_WEIGHTS` | `-` |
+| Alibaba | Qwen3.8-27B | [Qwen/Qwen3.8-27B](https://huggingface.co/Qwen/Qwen3.8-27B) | `apache-2.0` | `STD` | `std` |
+| DeepSeek | V4-Pro | [deepseek-ai/DeepSeek-V4-Pro](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro) | `mit` | `STD` | `std` |
+| DeepSeek | V4.1-Flash | [deepseek-ai/DeepSeek-V4.1-Flash](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash) | `mit` | `STD` | `std` |
+| DeepSeek | V4.1-Flash-1017 | [deepseek-ai/DeepSeek-V4.1-Flash-1017](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017) | `mit` | `STD` | `std` |
+| Meituan | LongCat-2.0 | [meituan-longcat/LongCat-2.0](https://huggingface.co/meituan-longcat/LongCat-2.0) | `mit` | `STD` | `std` |
+| Meituan | LongCat-2.5 | [meituan-longcat/LongCat-2.5](https://huggingface.co/meituan-longcat/LongCat-2.5) | `mit` | `STD` | `std` |
+| Meituan | LongCat-Flash-Chat | [meituan-longcat/LongCat-Flash-Chat](https://huggingface.co/meituan-longcat/LongCat-Flash-Chat) | `mit` | `STD` | `std` |
+| OpenAI | gpt-oss-120b | [openai/gpt-oss-120b](https://huggingface.co/openai/gpt-oss-120b) | `apache-2.0` | `STD` | `std` |
+| StepFun | Step-3.7-Flash | [stepfun-ai/Step-3.7-Flash](https://huggingface.co/stepfun-ai/Step-3.7-Flash) | `apache-2.0` | `STD` | `std` |
+| Tencent | Hy-Nomas | [tencent/Hy-Nomas](https://huggingface.co/tencent/Hy-Nomas) | `apache-2.0` | `STD` | `std` |
+| Zhipu | GLM-5.2 | [zai-org/GLM-5.2](https://huggingface.co/zai-org/GLM-5.2) | `mit` | `STD` | `std` |
+| Zhipu | GLM-5.3-Flash | [zai-org/GLM-5.3-Flash](https://huggingface.co/zai-org/GLM-5.3-Flash) | `mit` | `STD` | `std` |
 
-23 flagship models tracked across 12 vendors. Every `CUSTOM` entry has been checked against its actual LICENSE file, not just the Hugging Face tag.
+`Qwen3.8-Max` remains an unmapped entry in this maintained list. Recheck official release channels before concluding that a model has no public weights. Repository creation, release announcements, and completion of weight uploads are different events.
 
-| License base | Count | Meaning |
-|---|---:|---|
-| `std` — MIT / Apache-2.0 | **12** | Stock OSI license, no additions |
-| `mit-based` — MIT text + vendor clauses | **6** | LICENSE opens with the standard MIT grant, then appends clauses (revenue thresholds, attribution). **Considerably more permissive than the `other` tag implies** |
-| `custom` — fully bespoke agreement | **4** | ERNIE 5.5, Llama 3.3, MiniMax M2.5. Must be read line by line |
-| `NO_WEIGHTS` | **1** | Qwen3.8-Max — API access only |
+## How to use this data
 
-> **Updated 2026-11-10:** `LongCat-2.5` moved from `NO_WEIGHTS` to `std`. Weights landed 2026-11-09 (3.56 TB across 210 shards, plain MIT, 1.6T total / ~48B active, native multimodal). It is now the largest Chinese open-weight release tracked here — and carries the cleanest license. The earlier "no public weights" note was correct when written on 2026-11-05 and stopped being correct four days later.
+1. Confirm the official repository, actual weight files, access conditions, and exact revision.
+2. Distinguish Base, Instruct/Chat, and supported modalities. Base models can generate continuations; they should not be assumed to provide chat or tool-use behavior out of the box.
+3. Read the full LICENSE, including thresholds, attribution, territory, derivative-model conditions, and exceptions. Check filenames such as `LICENSE-MODEL` as well as `LICENSE`.
+4. Verify runtime compatibility and resources. Active MoE parameters and download size are not direct measurements of inference VRAM.
+5. Record dates, sources, estimates versus measurements, and corrections.
 
-### The table
+See the [checklist with fixed-version evidence](docs/model-selection-checklist.md) for the complete workflow and examples.
 
-See [`data/models.csv`](data/models.csv) for the full dataset. Selected rows:
-
-| Vendor | Model | License | Tier |
-|---|---|---|---|
-| DeepSeek | V4.1-Flash-1017 | `mit` | STD |
-| DeepSeek | V4-Pro | `mit` | STD |
-| Alibaba | Qwen3.8-27B | `apache-2.0` | STD |
-| Zhipu | GLM-5.2 | `mit` | STD |
-| Zhipu | GLM-5.3-Flash | `mit` | STD |
-| Meituan | LongCat-2.0 | `mit` | STD |
-| StepFun | Step-3.7-Flash | `apache-2.0` | STD |
-| Tencent | Hy-Nomas | `apache-2.0` | STD |
-| OpenAI | gpt-oss-120b | `apache-2.0` | STD |
-| — | — | — | — |
-| Moonshot | Kimi-K3 | `other` | CUSTOM |
-| Moonshot | Kimi-K3.1-Pro | `other` | CUSTOM |
-| MiniMax | M3 | `other` | CUSTOM |
-| Zhipu | GLM-5.3 | `other` | CUSTOM |
-| Alibaba | Qwen3.8-Flash-Next | `other` | CUSTOM |
-| Mistral | Large-4-1T-A52B | `other` | CUSTOM |
-| Baidu | ERNIE-5.5-Flash-Base | `other` | CUSTOM |
-| Meta | Llama-3.3-70B | `llama3.3` | CUSTOM |
-| — | — | — | — |
-| Alibaba | Qwen3.8-Max | — | **NO_WEIGHTS** |
-| Meituan | LongCat-2.5 | — | **NO_WEIGHTS** |
-
-## Findings that surprised us
-
-These were verified against the HF API, not taken from announcements:
-
-1. **A vendor's license can tighten between generations.** Zhipu's `GLM-5.2` is `MIT`. The newer flagship `GLM-5.3` is `other`. Upgrading the model can mean downgrading your legal position.
-2. **"Open source" sometimes means a base checkpoint.** Baidu's `ERNIE-5.5-Flash-Base` is a pre-training endpoint — 280B total / 14B active, 304 GB across 139 files. It ships without mid- or post-training. You cannot chat with it out of the box.
-3. **Some headline models have no weights at all.** `Qwen3.8-Max` and `LongCat-2.5` are widely discussed as "open source flagships" in the press. Neither has a Hugging Face repo. Qwen's newest public weights are `Qwen3.8-27B` and `Qwen3.8-Flash-Next`; Meituan's are still `LongCat-2.0`.
-4. **Mistral's flagship is not Apache.** `Mistral-Large-4-1T-A52B` is `other`, despite the common assumption that Mistral ships permissively.
-5. **The `other` tag hides a large difference.** 6 of the 10 models tagged `other` on Hugging Face ship a LICENSE file that opens with the standard MIT grant ("Permission is hereby granted, free of charge…") and only then appends vendor clauses. Only **4** are fully bespoke agreements. Grouping all ten as "custom" understates how usable the MIT-based ones are — and overstates the risk.
-6. **File naming breaks most scanners.** MiniMax-M2.5 ships its license as `LICENSE-MODEL`, not `LICENSE`. Any tool that only probes for `LICENSE` reports `unknown`. This is a likely reason several public indexes show a large share of `unknown` licenses: the license exists, the filename just does not match the convention.
-
-## How it works
-
-```
-scripts/check_hf.py   # scans the HF API and regenerates data/
-data/models.csv       # the table (curated flagship list, refreshed weekly)
-data/new_repos.json   # any repo created in the last 14 days across tracked orgs
-snapshots/            # dated markdown snapshots, for diffing over time
-```
-
-Run it yourself:
+## Refresh / 刷新
 
 ```bash
-python3 scripts/check_hf.py          # refresh data
-python3 scripts/check_hf.py --diff   # also report license changes since last run
+python3 scripts/check_hf.py
+python3 scripts/check_hf.py --diff
 ```
 
-No API key required. Requires only `python3` and `curl`.
+Requires Python 3 and curl; no API key required. The script refreshes mapped model metadata and discovers recent repositories under watched organizations. The flagship selection and unmapped entries are maintained manually.
 
-### Why a curated list
+```text
+scripts/check_hf.py             metadata refresh and new-repository discovery
+data/models.csv                current metadata and carried-forward manual labels
+data/new_repos.json             recently created repositories for review
+docs/model-selection-checklist.md  checklist and source-backed examples
+snapshots/                     dated historical records
+```
 
-An earlier version auto-selected "the newest repo per vendor". It surfaced OCR models, audio models and prompt-guard classifiers instead of the flagship LLMs. Automatic selection does not work for this dataset, so the flagship list is curated by hand in `scripts/check_hf.py`, while `new_repos.json` handles discovery separately. If a flagship is missing, open an issue.
+## Scope and limitations / 边界
 
-## Scope and limitations
+- The scanner reads **tags and metadata**, not complete license text. A tag refresh does not constitute a fresh commercial-use review.
+- Prior manual `license_base` labels are retained only if the tag matches. A changed tag resets the label to a tag-based `std` hint or `unreviewed`; even an unchanged tag can hide text changes, so always re-read the target revision.
+- HF `downloads` and `likes` are recorded as returned by the API; do not treat them as weekly increments or unique users.
+- No automatic benchmark, parameter, VRAM, or deployment validation is implied.
+- Historical files under `daily/` and `snapshots/` preserve earlier observations; consult the current table and later corrections before relying on them.
+- Failed fetches are marked `UNKNOWN` / `FETCH_FAILED`, not evidence of missing weights.
 
-- Covers **flagship LLMs** plus a few pairs for reference (one overseas model per major lab). It is not an exhaustive index of every HF repo.
-- `downloads` and `likes` are lifetime counters from HF, not weekly.
-- License classification is mechanical: `mit` / `apache-2.0` / `bsd-3-clause` → `STD`, everything else → `CUSTOM`. It does not read the actual license text. **`CUSTOM` does not mean non-commercial** — it means you must read the terms.
-- Parameter counts are not scraped, because HF exposes them inconsistently across architectures. Where a figure appears in the notes, it was verified manually.
-- Data reflects public state at the timestamps in `checked_at`.
+## 中文说明
+
+这个仓库帮助开发者区分三个问题：**能否取得权重、是否适合目标用途、具体许可允许什么**。它不把「开源」或一个许可证标签直接等同于「可上线」。
+
+`other` 只是线索，不等于禁止商用；MIT/Apache 也有应履行的条款。模型卡、LICENSE、部署要求和真实使用场景要一起看。
+
+2026-11-14 修正了 LongCat-2.5 在旧 README 和刷新脚本中的过时分类，并补充核查清单。Kimi 的 2000 万美元门槛须连同 MaaS 定义、营收口径和第 4 条豁免阅读，不能省略条件。
 
 ## Contributing
 
-Corrections are welcome, especially:
-- a flagship model that should be in the list
-- a license that changed and wasn't caught
-- a `CUSTOM` license you've actually read, with a one-line summary of commercial terms
-
-Open an issue with the HF repo URL and the evidence.
+Corrections are welcome. Include the official repository, revision or fixed-version source, relevant clause, and observation date. Separate what the author states from what you measured.
 
 ## License
 
 Data: CC0. Scripts: MIT.
-
----
-
-## 中文说明
-
-**这个仓库回答一个问题：哪些国产大模型的权重，是你真能下载来用的？**
-
-市面上的"开源"公告口径混乱：有的放了完整权重，有的放的是个没做完后训练的 Base checkpoint，有的压根没放权重、只卖 API。这个仓库每周从 Hugging Face API 直接抓，把差别摊开。
-
-### 四档分类
-
-| 档位 | 含义 | 数量 |
-|---|---|---|
-| `std` | MIT / Apache-2.0 原样协议，无附加条款 | 12 |
-| `mit-based` | **MIT 正文 + 厂商附加条款**（营收门槛、署名义务等） | 6 |
-| `custom` | 完全自定义协议（ERNIE 5.5 / Llama 3.3 / MiniMax M2.5） | 4 |
-| `NO_WEIGHTS` | 没有任何公开权重，只有 API | 1（Qwen3.8-Max） |
-
-**关键：这四档是逐个读 LICENSE 正文判的，不是看 HF 上的 `license:` 标签。** HF 把所有非标准协议一律标成 `other`，但那 10 个 `other` 里有 6 个的正文开头就是 MIT 授权语。
-
-### 六条核实出来的结论
-
-1. **同一家厂的许可证会收紧**：智谱 `GLM-5.2` 是 MIT，更新的旗舰 `GLM-5.3` 变成 `other`。换代可能是法律风险的降级。
-2. **"开源"有时只是 Base**：百度 `ERNIE-5.5-Flash-Base` 是预训练终点，280B 总参 / 14B 激活 / 304 GB / 139 个文件，没做中训练和后训练，下载下来不能直接对话。
-3. **有些头条模型根本没有权重**：`Qwen3.8-Max`、`LongCat-2.5` 被广泛当作"开源旗舰"讨论，但 HF 上没有仓库。
-4. **Mistral 的旗舰不是 Apache**：`Mistral-Large-4-1T-A52B` 是 `other`，不是普遍以为的宽松协议。
-5. **`other` 这个标签掩盖了巨大差别**：10 个被标 `other` 的模型里，**6 个的 LICENSE 正文开头就是标准 MIT 授权语**（"Permission is hereby granted, free of charge…"），后面才附上厂商条款。真正完全自定义的只有 **4 个**。把它们一律叫「自定义协议」，既低估了前 6 个的可用性，也高估了风险。
-6. **文件名不规范会让工具误判**：MiniMax-M2.5 的许可证文件叫 **`LICENSE-MODEL`**，不叫 `LICENSE`。只探测 `LICENSE` 的脚本会直接标 `unknown`——公开索引里大量 `unknown` 很可能就是这么来的：许可证是有的，只是文件名不合惯例。
-
-### 用法
-
-```bash
-python3 scripts/check_hf.py          # 刷新数据
-python3 scripts/check_hf.py --diff   # 额外报告许可证变更
-```
-
-无需 API key，只要 `python3` 和 `curl`。
-
-### 边界
-
-- 只覆盖**旗舰大模型**，不是全量 HF 索引
-- 许可证分类是机械判定，不读协议正文；`CUSTOM` 不等于不能商用，只是要求你自己读条款
-- 参数不自动抓取（HF 各架构暴露方式不一致），文中出现的数字均为人工核实
-
-发现错漏请开 issue，附 HF 仓库链接和证据。
